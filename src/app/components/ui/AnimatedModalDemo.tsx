@@ -154,7 +154,7 @@ export function AnimatedModalDemo() {
               </a>
             </div>
           </ModalContent>
-          <ModalFooter className="gap-4">
+          <ModalFooter className="gap-4"><></>
 
           </ModalFooter>
         </ModalBody>

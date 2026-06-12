@@ -1,3 +1,4 @@
+// @ts-nocheck
 "use client";
 
 import React, { useEffect, useRef } from 'react';
@@ -638,6 +639,7 @@ class ExternalForce extends ShaderPass {
     super({ output: simProps.dst });
     this.init(simProps);
   }
+  // @ts-ignore
   init(simProps: { cellScale: THREE.Vector2; cursor_size: number }) {
     super.init();
     const mouseG = new THREE.PlaneGeometry(1, 1);

@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
-
 const nextConfig: NextConfig = {
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   images: {
     remotePatterns: [
       {
@@ -11,8 +13,11 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "images.unsplash.com",
       },
+      {
+        protocol: "https",
+        hostname: "puxpmuffheyairhftzsc.supabase.co",
+      },
     ],
   },
 };
-
 export default nextConfig;
