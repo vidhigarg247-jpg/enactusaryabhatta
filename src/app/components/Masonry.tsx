@@ -96,7 +96,7 @@ const Masonry: React.FC<MasonryProps> = ({
 }) => {
   const columns = useMedia(
     ['(min-width:1500px)', '(min-width:1000px)', '(min-width:600px)', '(min-width:400px)'],
-    [5, 4, 3, 1],
+    [5, 4, 3, 2],
     1
   );
 
@@ -119,7 +119,7 @@ const Masonry: React.FC<MasonryProps> = ({
     const layout = items.map(child => {
       const col = colHeights.indexOf(Math.min(...colHeights));
       const x = col * (columnWidth + gap);
-      const height = isMobile ? child.height / 3.5 : child.height / 1.8;
+      const height = isMobile ? child.height / 5 : child.height / 1.8;
       const y = colHeights[col];
       colHeights[col] += height + gap;
       return { ...child, x, y, w: columnWidth, h: height };
