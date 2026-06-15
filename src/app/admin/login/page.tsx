@@ -15,6 +15,8 @@ const ALLOWED_ADMINS = [
   "pragungulati9@gmail.com",
   "bahulikasrivastava@gmail.com",
   "alisha.ahlawat.75@gmail.com",
+  "16mehaksharma@gmail.com",
+  "16mehaksharma@gmail.com"
 ];
 
 export default function AdminLoginPage() {
