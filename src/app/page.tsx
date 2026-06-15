@@ -55,14 +55,14 @@ export default function Home() {
   ];
 
   const masonryItems = [
-  { id: "1", img: "tanmay1.jpg", url: "/projects", height: 520 },
-  { id: "2", img: "tanmay2.png", url: "/projects", height: 380 },
-  { id: "3", img: "tanmay3.png", url: "/projects", height: 620 },
-  { id: "4", img: "tanmay4.png", url: "/projects", height: 300 },
-  { id: "5", img: "tanmay5.png", url: "/projects", height: 580 },
+  { id: "1", img: "tanmay1.jpg", url: "/projects", height: 400 },
+  { id: "2", img: "tanmay2.png", url: "/projects", height: 400 },
+  { id: "3", img: "tanmay3.png", url: "/projects", height: 400 },
+  { id: "4", img: "tanmay4.png", url: "/projects", height: 400 },
+  { id: "5", img: "tanmay5.png", url: "/projects", height: 400 },
   { id: "6", img: "tanmay6.png", url: "/projects", height: 420 },
-  { id: "7", img: "tanmay7.jpg", url: "/projects", height: 680 },
-  { id: "8", img: "tanmay8.jpeg", url: "/projects", height: 350 },
+  { id: "7", img: "tanmay7.jpg", url: "/projects", height: 400 },
+  { id: "8", img: "tanmay8.jpeg", url: "/projects", height: 400 },
 
   ];
 
