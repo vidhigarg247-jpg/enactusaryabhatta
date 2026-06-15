@@ -758,7 +758,7 @@ class InfiniteGridMenu {
   private init(onInit?: InitCallback): void {
     const gl = this.canvas.getContext('webgl2', {
       antialias: true,
-      alpha: false
+      alpha: true
     });
     if (!gl) {
       throw new Error('No WebGL 2 context!');
@@ -1144,25 +1144,22 @@ const InfiniteMenu: FC<InfiniteMenuProps> = ({ items = [], scale = 1.0 }) => {
 
       {activeItem && (
         <>
-          {/* TOP — label + title stacked cleanly */}
-          <div
-            className={`
-              absolute top-5 left-1/2 -translate-x-1/2
-              flex flex-col items-center gap-1.5
-              pointer-events-none select-none
-              transition-all duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1.0)]
-              ${isMoving ? 'opacity-0 translate-y-[-4px]' : 'opacity-100 translate-y-0'}
-            `}
-          >
-            <span className="text-[10px] md:text-xs tracking-[0.3em] uppercase text-amber-400 font-semibold px-3 py-1 rounded-full bg-amber-400/10 border border-amber-400/20">
+          <div className={`
+            select-none absolute
+            top-6 left-1/2 -translate-x-1/2
+            flex flex-col items-center gap-2
+            pointer-events-none
+            transition-all ease-[cubic-bezier(0.25,0.1,0.25,1.0)]
+            ${isMoving ? 'opacity-0 duration-100' : 'opacity-100 duration-500'}
+          `}>
+            <span className="text-xs tracking-[0.3em] uppercase text-amber-400 font-semibold">
               {activeItem.description}
             </span>
-            <h2 className="font-black text-2xl md:text-5xl text-white text-center whitespace-nowrap drop-shadow-lg">
+            <h2 className="font-black text-3xl md:text-5xl text-white drop-shadow-lg whitespace-nowrap">
               {activeItem.title}
             </h2>
           </div>
 
-          {/* BOTTOM — arrow button */}
           <div
             onClick={handleButtonClick}
             className={`
@@ -1183,6 +1180,7 @@ const InfiniteMenu: FC<InfiniteMenuProps> = ({ items = [], scale = 1.0 }) => {
             <span className="text-black text-lg font-bold select-none">↗</span>
           </div>
         </>
+
       )}
     </div>
   );

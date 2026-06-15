@@ -67,7 +67,7 @@ export default function Home() {
   ];
 
   return (
-    <main className="min-h-screen bg-black text-slate-100 relative">
+    <main className="min-h-screen bg-black text-slate-100 relative -mt-16">
 
       {/* MENU */}
       <div className="fixed top-0 left-0 w-full z-[9999]">
@@ -91,7 +91,7 @@ export default function Home() {
         <div className="absolute inset-0 z-0">
           <LiquidEther />
         </div>
-        <div className="relative z-10 flex items-center min-h-screen px-4 pt-24 pb-12 max-w-6xl mx-auto">
+        <div className="relative z-10 flex items-center min-h-screen px-4 pt-16 pb-12 max-w-6xl mx-auto">
           <div className="w-full">
             <p className="text-amber-400 text-xs tracking-[0.3em] uppercase mb-4 font-medium">
               Enactus · Aryabhatta College · New Delhi

@@ -107,21 +107,21 @@ export default function TeamTasksPage() {
       <div className="relative z-10 max-w-4xl mx-auto px-6 pt-32 pb-16 text-white">
 
         <div className="mb-12">
-          <p className="text-xs tracking-[0.4em] uppercase text-white-400/80 font-semibold mb-3">
+          <p className="text-xs tracking-[0.4em] uppercase text-amber-400/80 font-semibold mb-3">
             Enactus Aryabhatta
           </p>
           <h1 className="text-5xl md:text-6xl font-black mb-4" style={{ textShadow: '0 0 40px rgba(234,179,8,0.4)' }}>
             <span className="text-white">Team </span>
-            <span className="text-white-400">Tasks</span>
+            <span className="text-amber-400">Tasks</span>
           </h1>
-          <p className="text-white/100 text-sm max-w-md">
+          <p className="text-white/50 text-sm max-w-md">
             Click "I'm Working" to volunteer for a task and let the team know you're on it.
           </p>
         </div>
 
         <div className="grid gap-4">
           {tasks.length === 0 && (
-            <p className="text-white/500">No tasks available right now.</p>
+            <p className="text-white/30">No tasks available right now.</p>
           )}
           {tasks.map((task) => {
             const vols = volunteersForTask(task.id);

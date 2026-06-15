@@ -15,7 +15,7 @@ export default function AdminLayout({
 
   useEffect(() => {
     // 🔓 Allow login page without auth
-    if (pathname === "/admin/login") {
+    if (pathname === "/admin/login" || pathname === "/admin/tasks" || pathname === "/admin/tasks") {
       setChecking(false);
       return;
     }
