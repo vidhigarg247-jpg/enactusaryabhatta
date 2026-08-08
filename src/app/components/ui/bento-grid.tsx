@@ -8,15 +8,11 @@ export const BentoGrid = ({
 }: {
   className?: string;
   children?: React.ReactNode;
-}) => {
-  return (
-    <div
-      className={`grid md:grid-cols-3 gap-4 max-w-7xl mx-auto ${className}`}
-    >
-      {children}
-    </div>
-  );
-};
+}) => (
+  <div className={`grid grid-cols-1 gap-5 md:grid-cols-3 ${className ?? ""}`}>
+    {children}
+  </div>
+);
 
 export const BentoGridItem = ({
   className,
@@ -27,26 +23,20 @@ export const BentoGridItem = ({
 }: {
   className?: string;
   title?: string;
-  description?: string | React.ReactNode;
+  description?: React.ReactNode;
   header?: React.ReactNode;
   icon?: React.ReactNode;
-}) => {
-  return (
-    <div
-      className={`row-span-1 rounded-2xl border p-4 bg-white dark:bg-neutral-900 shadow-sm hover:shadow-md transition ${className}`}
-    >
-      <div className="mb-4">{header}</div>
-
-      <div className="flex items-center gap-2 mb-2">
+}) => (
+  <article
+    className={`group rounded-[1.5rem] border border-white/10 bg-white/[0.06] p-3 text-white shadow-2xl shadow-black/20 transition duration-300 hover:-translate-y-1 hover:border-sky-300/40 hover:bg-white/[0.09] ${className ?? ""}`}
+  >
+    {header}
+    <div className="px-2 pb-2 pt-5 sm:px-3">
+      <div className="flex items-center gap-2 text-sm font-semibold text-white">
         {icon}
-        <h3 className="font-semibold text-neutral-800 dark:text-neutral-200">
-          {title}
-        </h3>
+        <h3>{title}</h3>
       </div>
-
-      <p className="text-sm text-neutral-600 dark:text-neutral-400">
-        {description}
-      </p>
+      <div className="mt-2 text-sm leading-relaxed text-white/65">{description}</div>
     </div>
-  );
-};
+  </article>
+);

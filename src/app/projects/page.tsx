@@ -85,12 +85,25 @@ export default function ProjectsPage() {
 
       <Carousel items={cards} />
 
-      <div className="mt-32">
-        <h2 className="text-2xl md:text-5xl font-bold text-center text-neutral-800 dark:text-neutral-200 mb-10">
-          Our Achievements
-        </h2>
-        <BentoGridDemo />
-      </div>
+      <section aria-labelledby="achievements-heading" className="mt-24 bg-black py-16 sm:mt-32 sm:py-24">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
+          <div aria-hidden="true" className="absolute bottom-8 left-0 top-8 hidden w-px bg-white/15 lg:block">
+            <div className="h-32 w-full rounded-full bg-sky-400 shadow-[0_0_22px_rgba(56,189,248,0.9)]" />
+          </div>
+          <p className="text-center text-xs font-bold uppercase tracking-[0.28em] text-sky-300">
+            Celebrating progress
+          </p>
+          <h2 id="achievements-heading" className="mt-3 text-center text-3xl font-bold tracking-tight text-white sm:text-5xl">
+            Our Achievements
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-center text-sm leading-relaxed text-white/65 sm:text-base">
+            Milestones that reflect the work, courage and collaboration behind Enactus Aryabhatta.
+          </p>
+          <div className="mt-10 sm:mt-14">
+            <BentoGridDemo />
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
