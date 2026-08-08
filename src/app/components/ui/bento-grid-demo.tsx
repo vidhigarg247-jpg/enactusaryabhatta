@@ -33,10 +33,10 @@ const achievements: Achievement[] = [
     icon: <IconBuildingCommunity className="h-5 w-5" />,
   },
   {
-    label: "Campus milestones",
-    title: "Recognised for our ideas and action",
+    label: "Business ethics grant",
+    title: "KPMG Business Ethics Grant Winners",
     description:
-      "The team has consistently earned recognition across student entrepreneurship platforms for turning social challenges into scalable solutions.",
+      "Enactus Aryabhatta was recognised as a KPMG Business Ethics Grant winner—an honour that celebrates purpose-led entrepreneurship and responsible impact.",
     images: [{ src: "/achievements/team-recognition.jpg", alt: "Enactus team holding certificates" }],
     icon: <IconAward className="h-5 w-5" />,
   },

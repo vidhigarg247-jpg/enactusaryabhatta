@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { motion, PanInfo, useMotionValue, useTransform } from "motion/react";
 import React from "react";
 import { FiCalendar } from "react-icons/fi";
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@supabase/supabase-js";
 
 export interface CarouselItem {
   title: string;
@@ -30,6 +30,21 @@ const SPRING_OPTIONS = {
   stiffness: 300,
   damping: 30,
 };
+
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabase = supabaseUrl && supabaseAnonKey
+  ? createClient(supabaseUrl, supabaseAnonKey)
+  : null;
+
+const fallbackAnnouncements: CarouselItem[] = [
+  {
+    id: 1,
+    title: "Welcome to Enactus",
+    description: "Stay tuned for announcements.",
+    icon: <FiCalendar className="h-[14px] w-[14px] text-amber-400" />,
+  },
+];
 
 function CarouselItem({ item, index, itemWidth, round, trackItemOffset, x, transition }: any) {
   const range = [
@@ -75,6 +90,11 @@ export default function Carousel({
 
   useEffect(() => {
     const fetchAnnouncements = async () => {
+      if (!supabase) {
+        setItems(fallbackAnnouncements);
+        return;
+      }
+
       const { data } = await supabase
         .from("announcements")
         .select("*")
@@ -90,14 +110,7 @@ export default function Carousel({
           }))
         );
       } else {
-        setItems([
-          {
-            id: 1,
-            title: "Welcome to Enactus",
-            description: "Stay tuned for announcements.",
-            icon: <FiCalendar className="h-[14px] w-[14px] text-amber-400" />,
-          },
-        ]);
+        setItems(fallbackAnnouncements);
       }
     };
 

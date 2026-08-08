@@ -6,7 +6,6 @@ import BlurText from "./BlurText";
 import InfiniteMenu from "@/app/components/ui/InfiniteMenu";
 import LiquidEther from "@/app/components/ui/LiquidEther";
 import Carousel from "./components/Carousel";
-import Masonry from "@/app/components/Masonry";
 import FlowingMenu from "@/app/components/FlowingMenu";
 import { AnimatedModalDemo } from "@/app/components/ui/AnimatedModalDemo";
 
@@ -52,18 +51,6 @@ export default function Home() {
       link: "https://www.instagram.com/reel/DGsNQT-x35L/",
       description: "Jar with Lid Candles",
     },
-  ];
-
-  const masonryItems = [
-  { id: "1", img: "tanmay1.jpg", url: "/projects", height: 400 },
-  { id: "2", img: "tanmay2.png", url: "/projects", height: 400 },
-  { id: "3", img: "tanmay3.png", url: "/projects", height: 400 },
-  { id: "4", img: "tanmay4.png", url: "/projects", height: 400 },
-  { id: "5", img: "tanmay5.png", url: "/projects", height: 400 },
-  { id: "6", img: "tanmay6.png", url: "/projects", height: 420 },
-  { id: "7", img: "tanmay7.jpg", url: "/projects", height: 400 },
-  { id: "8", img: "tanmay8.jpeg", url: "/projects", height: 400 },
-
   ];
 
   return (
@@ -154,9 +141,57 @@ export default function Home() {
             </div>
           </section>
 
-          {/* MASONRY */}
-          <section className="relative w-full min-h-[400px] md:min-h-[600px]">
-            <Masonry items={masonryItems} />
+          {/* ENACTOPIA */}
+          <section className="relative isolate overflow-hidden rounded-3xl border border-amber-300/25 bg-[#120f08] px-6 py-10 sm:px-10 sm:py-14">
+            <div className="absolute inset-0 opacity-30 [background-image:linear-gradient(rgba(251,191,36,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(251,191,36,0.08)_1px,transparent_1px)] [background-size:28px_28px]" />
+            <div className="absolute -left-10 top-8 text-[5.5rem] font-black leading-none tracking-tighter text-amber-300/[0.06] sm:text-[10rem]">ENACT</div>
+            <div className="absolute -right-10 bottom-0 text-[5.5rem] font-black leading-none tracking-tighter text-amber-300/[0.06] sm:text-[10rem]">TOPIA</div>
+
+            <div className="relative grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+              <div>
+                <div className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.28em] text-amber-300">
+                  <span className="h-2 w-2 animate-pulse rounded-full bg-amber-300" />
+                  Enactus Aryabhatta annual event
+                </div>
+                <h2 className="mt-5 text-5xl font-black uppercase leading-[0.82] tracking-[-0.06em] text-white sm:text-7xl">
+                  Enact<span className="text-amber-300">opia</span>
+                </h2>
+                <p className="mt-6 max-w-xl text-base leading-relaxed text-slate-300 sm:text-lg">
+                  Our annual sustainable business-plan competition, hosted at Aryabhatta College. Student teams from across colleges brought their ventures to the stage, pitched their ideas and turned purpose into possibility.
+                </p>
+                <div className="mt-8 flex flex-wrap items-center gap-3 text-xs font-bold uppercase tracking-[0.16em] text-amber-100">
+                  {['Sustainable B-plan competition', 'Hosted at Aryabhatta', 'Annual event'].map((item) => (
+                    <span key={item} className="rounded-full border border-amber-300/30 bg-amber-300/10 px-4 py-2">{item}</span>
+                  ))}
+                </div>
+                <p className="mt-7 max-w-xl border-l-2 border-amber-300 pl-4 text-sm leading-relaxed text-amber-100/90">
+                  Judged by the former CFO of Enactus India and Mrs Meghna Joshi, Enactopia brought together ideas, mentorship and a shared commitment to responsible entrepreneurship.
+                </p>
+              </div>
+
+              <div className="relative overflow-hidden rounded-[2rem] border-2 border-dashed border-amber-300/60 bg-amber-300 p-1 shadow-2xl shadow-amber-500/10">
+                <div className="relative overflow-hidden rounded-[1.7rem] bg-[#171109] p-3 sm:p-4">
+                  <div className="grid gap-3 sm:grid-cols-[1.45fr_0.85fr]">
+                    <figure className="relative min-h-64 overflow-hidden rounded-2xl sm:min-h-full">
+                      <img src="/enactopia/enactopia-event-moment.jpg" alt="Enactopia winners and judges on the Aryabhatta College stage" className="absolute inset-0 h-full w-full object-cover" />
+                      <figcaption className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent px-4 pb-4 pt-12 text-xs font-semibold uppercase tracking-[0.18em] text-amber-200">Enactopia 2026 · Aryabhatta College</figcaption>
+                    </figure>
+                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-1">
+                      <figure className="relative min-h-32 overflow-hidden rounded-2xl">
+                        <img src="/enactopia/enactopia-project-pitch.jpg" alt="Student team presenting their project at Enactopia" className="absolute inset-0 h-full w-full object-cover" />
+                      </figure>
+                      <figure className="relative min-h-32 overflow-hidden rounded-2xl">
+                        <img src="/enactopia/enactopia-aquaheat-pitch.jpg" alt="A student team pitching at Enactopia" className="absolute inset-0 h-full w-full object-cover" />
+                      </figure>
+                    </div>
+                  </div>
+                  <div className="mt-3 flex items-center justify-between gap-4 px-2 pb-1 text-[10px] font-bold uppercase tracking-[0.2em] text-amber-200">
+                    <span>Ideas on stage</span>
+                    <span>Pitch · Learn · Lead</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </section>
 
           {/* MISSION + STATS */}
