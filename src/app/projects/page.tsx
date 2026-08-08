@@ -72,13 +72,13 @@ export default function ProjectsPage() {
   ));
 
   return (
-    <div className="-mt-16 min-h-screen bg-white py-12 sm:py-16">
+    <div className="-mt-16 min-h-screen bg-black py-12 sm:py-16">
       <section className="mx-auto max-w-7xl px-4 sm:px-6">
         <p className="text-xs font-bold uppercase tracking-[0.25em] text-amber-600">Enactus Aryabhatta</p>
-        <h1 className="mt-3 max-w-3xl text-4xl font-bold tracking-tight text-neutral-900 sm:text-5xl md:text-6xl">
+        <h1 className="mt-3 max-w-3xl text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl">
           Projects that turn challenges into opportunity.
         </h1>
-        <p className="mt-5 max-w-2xl text-base leading-relaxed text-neutral-600 md:text-lg">
+        <p className="mt-5 max-w-2xl text-base leading-relaxed text-white/65 md:text-lg">
           Each project is built with communities at its centre: reducing waste, restoring ecosystems and creating dignified livelihoods.
         </p>
       </section>
