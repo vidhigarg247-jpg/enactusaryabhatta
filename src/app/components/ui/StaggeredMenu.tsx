@@ -62,6 +62,7 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
   onMenuClose,
 }: StaggeredMenuProps) => {
   const [open, setOpen] = useState(false);
+  const [isAtPageTop, setIsAtPageTop] = useState(true);
   const openRef = useRef(false);
 
   const panelRef = useRef<HTMLDivElement>(null);
@@ -87,6 +88,19 @@ export const StaggeredMenu: React.FC<StaggeredMenuProps> = ({
   const itemEntranceTweenRef = useRef<gsap.core.Tween | null>(null);
 
   const router = useRouter();
+  const isHeaderVisible = !isFixed || open || isAtPageTop;
+
+  useEffect(() => {
+    if (!isFixed) return;
+
+    const updateHeaderVisibility = () => {
+      setIsAtPageTop(window.scrollY <= 12);
+    };
+
+    updateHeaderVisibility();
+    window.addEventListener("scroll", updateHeaderVisibility, { passive: true });
+    return () => window.removeEventListener("scroll", updateHeaderVisibility);
+  }, [isFixed]);
 
 const handleMenuItemClick = (link: string) => {
   closeMenu();
@@ -308,8 +322,9 @@ const handleMenuItemClick = (link: string) => {
             ".sm-panel-list[data-numbering] .sm-panel-item"
           )
         ) as HTMLElement[];
-        if (numberEls.length)
-          gsap.set(numberEls, { ["--sm-num-opacity" as any]: 0 });
+        numberEls.forEach((element) =>
+          element.style.setProperty("--sm-num-opacity", "0")
+        );
 
         const socialTitle = panel.querySelector(
           ".sm-socials-title"
@@ -497,13 +512,17 @@ const handleMenuItemClick = (link: string) => {
         </div>
 
         <header
-          className="staggered-menu-header absolute top-0 left-0 w-full flex items-center justify-between p-[2em] bg-transparent pointer-events-none z-20"
+          className={`staggered-menu-header absolute top-0 left-0 z-20 flex w-full items-center justify-between bg-transparent p-[2em] transition-all duration-300 ease-out ${
+            isHeaderVisible ? "translate-y-0 opacity-100" : "-translate-y-6 pointer-events-none opacity-0"
+          }`}
           aria-label="Main navigation header"
+          aria-hidden={!isHeaderVisible}
         >
           <Link
             href="/"
-            className="sm-logo flex items-center select-none pointer-events-auto"
+            className={`sm-logo flex items-center select-none ${isHeaderVisible ? "pointer-events-auto" : "pointer-events-none"}`}
             aria-label="Go to home"
+            tabIndex={isHeaderVisible ? 0 : -1}
           >
             <Image
               src={logoUrl}
@@ -517,13 +536,14 @@ const handleMenuItemClick = (link: string) => {
 
           <button
             ref={toggleBtnRef}
-            className={`sm-toggle relative inline-flex items-center gap-[0.3rem] bg-transparent border-0 cursor-pointer font-medium leading-none overflow-visible pointer-events-auto ${
+            className={`sm-toggle relative inline-flex items-center gap-[0.3rem] bg-transparent border-0 cursor-pointer font-medium leading-none overflow-visible ${isHeaderVisible ? "pointer-events-auto" : "pointer-events-none"} ${
               open ? "text-black" : "text-[#e9e9ef]"
             }`}
             aria-label={open ? "Close menu" : "Open menu"}
             aria-expanded={open}
             aria-controls="staggered-menu-panel"
             onClick={toggleMenu}
+            tabIndex={isHeaderVisible ? 0 : -1}
           >
             <span
               ref={textWrapRef}

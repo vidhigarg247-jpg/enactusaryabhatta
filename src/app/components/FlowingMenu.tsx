@@ -39,6 +39,16 @@ const FlowingMenu: React.FC<FlowingMenuProps> = ({
 }) => {
   return (
     <div className="w-full h-full overflow-hidden" style={{ backgroundColor: bgColor }}>
+      <style jsx global>{`
+        @keyframes flowing-menu-mobile-marquee {
+          from { transform: translate3d(0, 0, 0); }
+          to { transform: translate3d(-50%, 0, 0); }
+        }
+
+        .flowing-menu-mobile-track {
+          animation: flowing-menu-mobile-marquee linear infinite;
+        }
+      `}</style>
       <nav className="flex flex-col h-full m-0 p-0">
         {items.map((item, idx) => (
           <MenuItem
@@ -88,6 +98,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
       const marqueeContent = marqueeInnerRef.current.querySelector('.marquee-part') as HTMLElement;
       if (!marqueeContent) return;
       const contentWidth = marqueeContent.offsetWidth;
+      if (contentWidth <= 0) return;
       const viewportWidth = window.innerWidth;
       const needed = Math.ceil(viewportWidth / contentWidth) + 2;
       setRepetitions(Math.max(4, needed));
@@ -128,6 +139,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
   }, [text, image, repetitions, speed]);
 
   const handleMouseEnter = (ev: React.MouseEvent<HTMLAnchorElement>) => {
+    if (window.matchMedia("(max-width: 767px)").matches) return;
     if (!itemRef.current || !marqueeRef.current || !marqueeInnerRef.current) return;
     const rect = itemRef.current.getBoundingClientRect();
     const edge = findClosestEdge(ev.clientX - rect.left, ev.clientY - rect.top, rect.width, rect.height);
@@ -140,6 +152,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
   };
 
   const handleMouseLeave = (ev: React.MouseEvent<HTMLAnchorElement>) => {
+    if (window.matchMedia("(max-width: 767px)").matches) return;
     if (!itemRef.current || !marqueeRef.current || !marqueeInnerRef.current) return;
     const rect = itemRef.current.getBoundingClientRect();
     const edge = findClosestEdge(ev.clientX - rect.left, ev.clientY - rect.top, rect.width, rect.height);
@@ -166,13 +179,30 @@ const MenuItem: React.FC<MenuItemProps> = ({
         {text}
       </a>
       <div
-        className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none translate-y-[101%]"
+        className="absolute top-0 left-0 hidden h-full w-full overflow-hidden pointer-events-none translate-y-[101%] md:block"
         ref={marqueeRef}
         style={{ backgroundColor: marqueeBgColor }}
       >
         <div className="h-full w-fit flex" ref={marqueeInnerRef}>
           {[...Array(repetitions)].map((_, idx) => (
             <div className="marquee-part flex items-center flex-shrink-0" key={idx} style={{ color: marqueeTextColor }}>
+              <span className="whitespace-nowrap uppercase font-normal text-[4vh] leading-[1] px-[1vw]">{text}</span>
+              <div
+                className="w-[200px] h-[7vh] my-[2em] mx-[2vw] py-[1em] rounded-[50px] bg-cover bg-center"
+                style={{ backgroundImage: `url(${image})` }}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div
+        className="absolute inset-0 overflow-hidden pointer-events-none md:hidden"
+        style={{ backgroundColor: marqueeBgColor }}
+        aria-hidden="true"
+      >
+        <div className="flowing-menu-mobile-track flex h-full w-max" style={{ animationDuration: `${speed}s` }}>
+          {[...Array(repetitions * 2)].map((_, idx) => (
+            <div className="flex items-center flex-shrink-0" key={idx} style={{ color: marqueeTextColor }}>
               <span className="whitespace-nowrap uppercase font-normal text-[4vh] leading-[1] px-[1vw]">{text}</span>
               <div
                 className="w-[200px] h-[7vh] my-[2em] mx-[2vw] py-[1em] rounded-[50px] bg-cover bg-center"

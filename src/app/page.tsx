@@ -233,12 +233,12 @@ export default function Home() {
         <div className="h-[360px] md:h-[560px]">
           <FlowingMenu
             items={[
-              { link: "/projects", text: "Palaash", image: "/palaash.png" },
-              { link: "/projects", text: "Aarazi", image: "/Aarazi.png" },
-              { link: "/projects", text: "Ibtida", image: "/Ibtida.png" },
-              { link: "/projects", text: "Utkarsh", image: "/utkarsh.png" },
+              { link: "/projects?project=palaash#project-cards", text: "Palaash", image: "/palaash.png" },
+              { link: "/projects?project=aarazi#project-cards", text: "Aarazi", image: "/Aarazi.png" },
+              { link: "/projects?project=ibtida#project-cards", text: "Ibtida", image: "/Ibtida.png" },
+              { link: "/projects?project=utkarsh#project-cards", text: "Utkarsh", image: "/utkarsh.png" },
             ]}
-            speed={15}
+            speed={24}
             textColor="#ffffff"
             bgColor="#060010"
             marqueeBgColor="#ffffff"

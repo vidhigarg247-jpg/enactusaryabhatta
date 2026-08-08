@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { Carousel, Card } from "@/app/components/ui/apple-cards-carousel";
 import { BentoGridDemo } from "@/app/components/ui/bento-grid-demo";
 
@@ -175,7 +176,10 @@ function ProjectLayout({ project }: { project: Project }) {
   );
 }
 
-export default function ProjectsPage() {
+function ProjectsContent() {
+  const searchParams = useSearchParams();
+  const selectedProject = searchParams.get("project")?.toLowerCase();
+  const selectedIndex = projects.findIndex((project) => project.title.toLowerCase() === selectedProject);
   const cards = projects.map((project, index) => (
     <Card
       key={project.title}
@@ -201,7 +205,7 @@ export default function ProjectsPage() {
         </p>
       </section>
 
-      <Carousel items={cards} />
+      <Carousel items={cards} initialCard={selectedIndex >= 0 ? selectedIndex : 0} />
 
       <section aria-labelledby="achievements-heading" className="mt-12 bg-black py-16 sm:mt-16 sm:py-24">
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
@@ -220,6 +224,14 @@ export default function ProjectsPage() {
         </div>
       </section>
     </div>
+  );
+}
+
+export default function ProjectsPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black" />}>
+      <ProjectsContent />
+    </Suspense>
   );
 }
 

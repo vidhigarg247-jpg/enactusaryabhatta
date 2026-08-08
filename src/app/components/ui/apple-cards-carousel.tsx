@@ -6,12 +6,12 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useOutsideClick } from "@/hooks/use-outside-click";
 
-interface CarouselProps { items: React.ReactNode[]; initialScroll?: number; }
+interface CarouselProps { items: React.ReactNode[]; initialCard?: number; }
 type CardType = { src: string; title: string; category: string; content: React.ReactNode; };
 
 export const CarouselContext = createContext<{ onCardClose: (index: number) => void }>({ onCardClose: () => {} });
 
-export function Carousel({ items, initialScroll = 0 }: CarouselProps) {
+export function Carousel({ items, initialCard = 0 }: CarouselProps) {
   const carouselRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(false);
@@ -22,15 +22,25 @@ export function Carousel({ items, initialScroll = 0 }: CarouselProps) {
     setCanScrollRight(element.scrollLeft + element.clientWidth < element.scrollWidth - 2);
   }, []);
 
+  const scrollToCard = useCallback((index: number, behavior: ScrollBehavior = "auto") => {
+    const carousel = carouselRef.current;
+    const cards = carousel?.querySelectorAll<HTMLElement>("[data-project-card]");
+    const targetCard = cards?.[index];
+    if (!carousel || !targetCard) return;
+
+    const targetLeft = targetCard.getBoundingClientRect().left - carousel.getBoundingClientRect().left + carousel.scrollLeft;
+    carousel.scrollTo({ left: Math.max(0, targetLeft - 16), behavior });
+  }, []);
+
   useEffect(() => {
     const element = carouselRef.current;
     if (!element) return;
-    element.scrollLeft = initialScroll;
+    const frame = requestAnimationFrame(() => scrollToCard(initialCard));
     checkScrollability();
     const resizeObserver = new ResizeObserver(checkScrollability);
     resizeObserver.observe(element);
-    return () => resizeObserver.disconnect();
-  }, [checkScrollability, initialScroll]);
+    return () => { cancelAnimationFrame(frame); resizeObserver.disconnect(); };
+  }, [checkScrollability, initialCard, scrollToCard]);
 
   const scrollByCard = (direction: number) => {
     const carousel = carouselRef.current;
@@ -44,7 +54,7 @@ export function Carousel({ items, initialScroll = 0 }: CarouselProps) {
 
   return (
     <CarouselContext.Provider value={{ onCardClose }}>
-      <div className="relative mt-1 w-full">
+      <div id="project-cards" className="relative mt-1 w-full scroll-mt-8">
         <div ref={carouselRef} onScroll={checkScrollability} className="snap-x snap-mandatory overflow-x-auto overscroll-x-contain scroll-smooth py-8 [scrollbar-width:none] [-ms-overflow-style:none] [scroll-padding-inline:1rem] [&::-webkit-scrollbar]:hidden sm:py-10 sm:[scroll-padding-inline:1.5rem] md:py-12">
           <div className="flex w-max gap-4 px-4 pb-1 sm:px-6 lg:px-[max(1.5rem,calc((100vw-80rem)/2))]">{items.map((item, index) => <motion.div key={index} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.25 }} transition={{ duration: 0.45, delay: Math.min(index * 0.08, 0.3) }} className="snap-start">{item}</motion.div>)}</div>
         </div>
