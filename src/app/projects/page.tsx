@@ -85,11 +85,8 @@ export default function ProjectsPage() {
 
       <Carousel items={cards} />
 
-      <section aria-labelledby="achievements-heading" className="mt-24 bg-black py-16 sm:mt-32 sm:py-24">
+      <section aria-labelledby="achievements-heading" className="mt-12 bg-black py-16 sm:mt-16 sm:py-24">
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
-          <div aria-hidden="true" className="absolute bottom-8 left-0 top-8 hidden w-px bg-white/15 lg:block">
-            <div className="h-32 w-full rounded-full bg-sky-400 shadow-[0_0_22px_rgba(56,189,248,0.9)]" />
-          </div>
           <p className="text-center text-xs font-bold uppercase tracking-[0.28em] text-sky-300">
             Celebrating progress
           </p>
