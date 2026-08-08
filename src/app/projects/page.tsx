@@ -13,6 +13,7 @@ type ProjectPage = {
   imageFit?: "cover" | "contain";
   imageBackground?: string;
   gallery?: ProjectGalleryImage[];
+  tone?: "yellow" | "pink" | "green";
 };
 
 type ProjectGalleryImage = {
@@ -28,30 +29,37 @@ type Project = {
   src: string;
   accent: string;
   pages: ProjectPage[];
+  theme?: "palaash";
 };
 
 function ProjectImageGallery({
   images,
   label,
+  theme,
 }: {
   images: ProjectGalleryImage[];
   label: string;
+  theme?: Project["theme"];
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [direction, setDirection] = useState<"next" | "previous">("next");
   const activeImage = images[activeIndex];
   const hasMultipleImages = images.length > 1;
+  const isPalaash = theme === "palaash";
 
   const showPrevious = () => {
+    setDirection("previous");
     setActiveIndex((current) => (current - 1 + images.length) % images.length);
   };
 
   const showNext = () => {
+    setDirection("next");
     setActiveIndex((current) => (current + 1) % images.length);
   };
 
   return (
     <div
-      className="relative flex min-h-72 items-center justify-center overflow-hidden bg-neutral-100 p-3 sm:min-h-80 sm:p-5 md:min-h-full"
+      className={`relative flex min-h-72 items-center justify-center overflow-hidden p-3 sm:min-h-80 sm:p-5 md:min-h-full ${isPalaash ? "bg-[#efd0b5]" : "bg-neutral-100"}`}
       style={{ backgroundColor: activeImage.background ?? "#f5f5f5" }}
     >
       <Image
@@ -60,7 +68,8 @@ function ProjectImageGallery({
         alt={activeImage.alt}
         fill
         sizes="(min-width: 768px) 36vw, 100vw"
-        className="object-contain p-3 transition-opacity duration-300 sm:p-5"
+        className="object-contain p-3 sm:p-5"
+        style={{ animation: `${direction === "next" ? "project-gallery-next" : "project-gallery-previous"} 360ms cubic-bezier(0.22, 1, 0.36, 1)` }}
       />
 
       {hasMultipleImages && (
@@ -69,57 +78,84 @@ function ProjectImageGallery({
             type="button"
             onClick={showPrevious}
             aria-label={`Show previous ${label} image`}
-            className="grid h-10 w-10 place-items-center rounded-full border border-black/10 bg-white/90 text-lg font-semibold text-neutral-900 shadow-sm transition hover:scale-105 hover:bg-white focus:outline-none focus:ring-2 focus:ring-black/30"
+            className={`grid h-10 w-10 place-items-center rounded-full border text-lg font-semibold shadow-sm transition hover:scale-105 focus:outline-none focus:ring-2 ${isPalaash ? "border-[#6b3441]/20 bg-[#ffe69b] text-[#5b303a] hover:bg-[#fff0b7] focus:ring-[#6b3441]/30" : "border-black/10 bg-white/90 text-neutral-900 hover:bg-white focus:ring-black/30"}`}
           >
             ←
           </button>
-          <span className="rounded-full bg-black/70 px-3 py-1.5 text-xs font-semibold tracking-[0.12em] text-white">
+          <span className={`rounded-full px-3 py-1.5 text-xs font-semibold tracking-[0.12em] ${isPalaash ? "bg-[#5b303a]/85 text-[#fff0ca]" : "bg-black/70 text-white"}`}>
             {activeIndex + 1} / {images.length}
           </span>
           <button
             type="button"
             onClick={showNext}
             aria-label={`Show next ${label} image`}
-            className="grid h-10 w-10 place-items-center rounded-full border border-black/10 bg-white/90 text-lg font-semibold text-neutral-900 shadow-sm transition hover:scale-105 hover:bg-white focus:outline-none focus:ring-2 focus:ring-black/30"
+            className={`grid h-10 w-10 place-items-center rounded-full border text-lg font-semibold shadow-sm transition hover:scale-105 focus:outline-none focus:ring-2 ${isPalaash ? "border-[#6b3441]/20 bg-[#ffe69b] text-[#5b303a] hover:bg-[#fff0b7] focus:ring-[#6b3441]/30" : "border-black/10 bg-white/90 text-neutral-900 hover:bg-white focus:ring-black/30"}`}
           >
             →
           </button>
         </div>
       )}
+      <style jsx global>{`
+        @keyframes project-gallery-next {
+          from { opacity: 0; transform: translateX(18px) scale(0.985); }
+          to { opacity: 1; transform: translateX(0); scale(1); }
+        }
+        @keyframes project-gallery-previous {
+          from { opacity: 0; transform: translateX(-18px) scale(0.985); }
+          to { opacity: 1; transform: translateX(0); scale(1); }
+        }
+      `}</style>
     </div>
   );
 }
 
 function ProjectLayout({ project }: { project: Project }) {
+  const isPalaash = project.theme === "palaash";
+
   return (
-    <div className="space-y-5">
-      {project.pages.map((page) => {
+    <div className={isPalaash ? "space-y-3 overflow-hidden rounded-[2rem] border border-[#6b3441]/20 bg-[#f8dd91] p-2 shadow-[0_20px_55px_rgba(88,45,55,0.18)] md:space-y-0 md:p-0" : "space-y-5"}>
+      {project.pages.map((page, pageIndex) => {
         const containsImage = page.imageFit === "contain";
         const gallery = page.gallery;
+        const isImpact = isPalaash && page.tone === "green";
+        const panelTone = isImpact ? "bg-[#315643]" : page.tone === "pink" || pageIndex % 2 !== 0 ? "bg-[#e8bac6]" : "bg-[#f8dd91]";
+        const eyebrowTone = isImpact ? "text-[#c8e18c]" : isPalaash ? "text-[#8d4663]" : "text-neutral-500";
+        const headingTone = isImpact ? "text-white" : isPalaash ? "text-[#482631]" : "text-neutral-900";
+        const bodyTone = isImpact ? "text-[#edf3df]" : isPalaash ? "text-[#5c3540]" : "text-neutral-700";
 
         return (
           <article
-          key={page.title}
-          className="overflow-hidden rounded-[2rem] border border-black/5 bg-white shadow-sm"
-        >
-          <div className="grid md:grid-cols-[1.15fr_0.85fr]">
-            <div className="p-6 sm:p-8 md:p-10">
-              <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-neutral-500">
+            key={page.title}
+            className={isPalaash ? `relative overflow-hidden rounded-[1.45rem] border border-[#6b3441]/20 shadow-sm ${panelTone} md:rounded-none md:border-x-0 md:border-t-0 md:shadow-none ${pageIndex === project.pages.length - 1 ? "md:border-b-0" : "md:border-b"}` : "overflow-hidden rounded-[2rem] border border-black/5 bg-white shadow-sm"}
+          >
+          {isPalaash && (
+            <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden text-4xl text-[#b35b7e]/10">
+              <span className="absolute left-[7%] top-[12%] rotate-12">✿</span>
+              <span className="absolute right-[12%] top-[18%] -rotate-12 text-3xl">✿</span>
+              <span className="absolute bottom-[14%] left-[42%] rotate-[25deg] text-2xl">✿</span>
+              <span className="absolute bottom-[9%] right-[7%] -rotate-[20deg] text-3xl">✿</span>
+            </div>
+          )}
+          <div className="relative grid md:grid-cols-[1.15fr_0.85fr]">
+            <div className="relative z-10 p-6 sm:p-8 md:p-10">
+              <p className={`mb-3 text-xs font-bold uppercase tracking-[0.18em] ${eyebrowTone}`}>
                 {page.eyebrow}
               </p>
-              <h3 className="text-2xl font-bold tracking-tight text-neutral-900 md:text-3xl">
+              <h3 className={`text-2xl font-bold tracking-tight md:text-3xl ${headingTone}`}>
                 {page.title}
               </h3>
-              <p className="mt-4 max-w-2xl text-base leading-relaxed text-neutral-700 md:text-lg">
+              <p className={`mt-4 max-w-2xl text-base leading-relaxed md:text-lg ${bodyTone}`}>
                 {page.description}
               </p>
             </div>
             {gallery ? (
-              <ProjectImageGallery images={gallery} label={page.title} />
+              <div className="relative z-10">
+                <ProjectImageGallery images={gallery} label={page.title} theme={project.theme} />
+              </div>
             ) : (
               <div
-                className="relative min-h-48 md:min-h-full"
-                style={{ backgroundColor: containsImage ? page.imageBackground ?? "#f5f5f5" : "#f5f5f5" }}
+                className="relative z-10 min-h-48 md:min-h-full"
+                style={{ backgroundColor: containsImage ? page.imageBackground ?? "#f5f5f5" : isImpact ? "#315643" : isPalaash ? "#efd0b5" : "#f5f5f5" }}
               >
                 <Image
                   src={page.image}
@@ -193,6 +229,7 @@ const projects: Project[] = [
     title: "Palaash",
     src: "/projects/palaash/aromy-incense-range.jpg",
     accent: "#f9bdff",
+    theme: "palaash",
     pages: [
       {
         eyebrow: "Project Palaash",
@@ -201,6 +238,15 @@ const projects: Project[] = [
         image: "/Projectpalaash.png",
         imageFit: "contain",
         imageBackground: "#2d1c25",
+      },
+      {
+        eyebrow: "Impact",
+        title: "Sustaining people, not just creating products.",
+        description: "Palaash turns flower waste into naturally dyed, vegan handloom textiles while creating dignified livelihood opportunities. By upskilling community members in tie-and-dye, ombré, clamping and block printing, the project supports partners in growing as entrepreneurs across the value chain.",
+        image: "/projects/palaash/gul-dyeing-team.jpg",
+        imageFit: "contain",
+        imageBackground: "#315643",
+        tone: "green",
       },
       {
         eyebrow: "Utsav · Diwali",
@@ -233,7 +279,7 @@ const projects: Project[] = [
         eyebrow: "Bandhan · Rakshabandhan",
         title: "A rakhi that grows beyond the celebration.",
         description: "Bandhan crafts organic seed rakhis that carry a promise beyond Rakshabandhan. Once the festival is over, the rakhi can be planted—turning a symbol of care into the beginning of something green.",
-        image: "/projects/palaash/organic-gulal.jpg",
+        image: "/projects/palaash/bandhan-seed-rakhi.jpg",
       },
       {
         eyebrow: "Aromy",
@@ -251,17 +297,20 @@ const projects: Project[] = [
         eyebrow: "Gul",
         title: "Colouring textiles with a gentler process.",
         description: "Gul gives textiles colour through organic dyes derived from flower waste. It explores a more responsible approach to dyeing—one where discarded petals find expression in fabric instead of becoming waste.",
-        image: "/projects/palaash/gul-organic-dyes.jpg",
+        image: "/projects/palaash/gul-dyed-textiles.jpg",
         gallery: [
-          { src: "/projects/palaash/gul-organic-dyes.jpg", alt: "Gul organic dyes", fit: "contain" },
           { src: "/projects/palaash/gul-dyed-textiles.jpg", alt: "Gul naturally dyed textiles", fit: "contain", background: "#eee9df" },
           { src: "/projects/palaash/gul-natural-ingredients.jpg", alt: "Natural ingredients used for Gul dyes", fit: "contain" },
           { src: "/projects/palaash/gul-dyed-top.jpg", alt: "Naturally dyed Gul garment", fit: "contain" },
           { src: "/projects/palaash/gul-fabric-rolls.jpg", alt: "Naturally dyed Gul fabric rolls", fit: "contain" },
           { src: "/projects/palaash/gul-fabric-detail.jpg", alt: "Gul dyed fabric detail", fit: "contain" },
-          { src: "/projects/palaash/gul-community.jpg", alt: "Project Palaash team with community partners", fit: "contain" },
           { src: "/projects/palaash/gul-dyeing-process.jpg", alt: "Gul artisan working with naturally dyed fabric", fit: "contain" },
           { src: "/projects/palaash/gul-community-process.jpg", alt: "Gul team displaying naturally dyed fabric", fit: "contain" },
+          { src: "/projects/palaash/gul-yellow-kurta.jpg", alt: "Gul naturally dyed yellow kurta", fit: "contain" },
+          { src: "/projects/palaash/gul-orange-stole.jpg", alt: "Gul naturally dyed orange stole", fit: "contain" },
+          { src: "/projects/palaash/gul-pink-top.jpg", alt: "Gul naturally dyed pink top", fit: "contain" },
+          { src: "/projects/palaash/gul-yellow-hat.jpg", alt: "Gul naturally dyed yellow hat", fit: "contain" },
+          { src: "/projects/palaash/gul-dyeing-team.jpg", alt: "Gul team presenting naturally dyed fabric", fit: "contain" },
         ],
       },
       {
